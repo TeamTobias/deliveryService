@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class RefundRequestDto {
     private int id;
-    private int itemId;
+    private int productId;
     private int clientId;
     private int amount;
+    private String reasn;
 }

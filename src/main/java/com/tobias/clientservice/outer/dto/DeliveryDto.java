@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class DeliveryDto {
     private int id;
-    private int itemId;
+    private int productId;
     private int clientId;
     private int amount;
 }

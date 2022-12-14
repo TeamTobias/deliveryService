@@ -5,7 +5,8 @@ import lombok.Data;
 @Data
 public class ExchangeRequestDto {
     private int id;
-    private int itemId;
+    private int productId;
     private int clientId;
     private int amount;
+    private String size;
 }

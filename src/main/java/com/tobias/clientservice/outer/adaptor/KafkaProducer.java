@@ -44,7 +44,7 @@ public class KafkaProducer {
         return refundRequestDto;
     }
 
-    public ExchangeRequestDto sendExchangeReqeust(String kafkaTopic, ExchangeRequestDto exchangeRequestDto) {
+    public ExchangeRequestDto sendExchangeRequest(String kafkaTopic, ExchangeRequestDto exchangeRequestDto) {
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = "";
         try {

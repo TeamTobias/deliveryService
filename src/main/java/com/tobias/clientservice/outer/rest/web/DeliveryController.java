@@ -36,7 +36,7 @@ public class DeliveryController {
             mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
             Delivery delivery = deliveryService.getDelivery(requestDelivery.getProductId());
             DeliveryDto deliveryDto = mapper.map(delivery, DeliveryDto.class);
-            kafkaProducer.sendDelivery("client-request-topic", deliveryDto);
+            kafkaProducer.sendDelivery("delivery-topic", deliveryDto);
             return HttpStatus.OK;
         }
 

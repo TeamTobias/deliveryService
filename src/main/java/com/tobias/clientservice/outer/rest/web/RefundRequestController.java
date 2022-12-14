@@ -28,7 +28,7 @@ public class RefundRequestController {
             refundRequestService.addRefundRequest(requestRefundRequest);
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-            RefundRequest refundRequest = refundRequestService.getRefundRequest(requestRefundRequest.getProductId());
+            RefundRequest refundRequest = refundRequestService.getRefundRequest(requestRefundRequest.getId());
             RefundRequestDto refundRequestDto = mapper.map(refundRequest, RefundRequestDto.class);
             kafkaProducer.sendRefundRequest("refund-request-topic", refundRequestDto);
             return HttpStatus.OK;

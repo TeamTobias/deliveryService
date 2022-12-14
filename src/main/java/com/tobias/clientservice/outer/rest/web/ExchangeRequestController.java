@@ -29,7 +29,7 @@ public class ExchangeRequestController {
             mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
             ExchangeRequest exchangeRequest = exchangeRequestService.getExchangeRequest(requestExchangeRequest.getProductId());
             ExchangeRequestDto exchangeRequestDto = mapper.map(exchangeRequest, ExchangeRequestDto.class);
-            kafkaProducer.sendExchangeReqeust("exchange-request-topic", exchangeRequestDto);
+            kafkaProducer.sendExchangeRequest("exchange-request-topic", exchangeRequestDto);
             return HttpStatus.OK;
         }
 
