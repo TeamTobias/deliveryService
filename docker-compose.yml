@@ -1,0 +1,38 @@
+version: '3.7'
+
+
+# postgresql container 생성 후 deliveryservice 컨테이너 생성
+services:
+  delivery-postgresql:
+    image: postgres:latest
+    container_name: delivery-postgresql
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: delivery
+    #    ports:
+    #      - 5432:5432
+    volumes:
+      - ./data/postgres/:/var/lib/postgresql/data
+    networks:
+      - delivery-net
+
+  app:
+    image: imkunyoung/deliveryservice:1.0
+    container_name: deliveryservice
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://delivery-postgresql:5432/delivery
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_PLATFORM=postgres
+    depends_on:
+      - delivery-postgresql
+    volumes:
+      - /app
+    networks:
+      - delivery-net
+
+networks:
+  delivery-net:
+    driver: bridge
