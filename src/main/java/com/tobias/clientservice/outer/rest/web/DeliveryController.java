@@ -1,11 +1,11 @@
 package com.tobias.clientservice.outer.rest.web;
 
-import com.tobias.clientservice.inner.domain.ClientRequest;
-import com.tobias.clientservice.inner.domain.RequestClientRequest;
-import com.tobias.clientservice.inner.domain.ResponseClientRequest;
-import com.tobias.clientservice.inner.service.ClientRequestService;
+import com.tobias.clientservice.inner.domain.Delivery;
+import com.tobias.clientservice.inner.domain.RequestDelivery;
+import com.tobias.clientservice.inner.domain.ResponseDelivery;
+import com.tobias.clientservice.inner.service.DeliveryService;
 import com.tobias.clientservice.outer.adaptor.KafkaProducer;
-import com.tobias.clientservice.outer.dto.ClientRequestDto;
+import com.tobias.clientservice.outer.dto.DeliveryDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeliveryController {
 
-        private final ClientRequestService clientRequestService;
+        private final DeliveryService deliveryService;
         private final KafkaProducer kafkaProducer;
 
         @GetMapping("/health_check")
@@ -30,26 +30,26 @@ public class DeliveryController {
         }
 
         @PostMapping("/delivery/v1")
-        public HttpStatus addClientRequest(@RequestBody RequestClientRequest requestClientRequest) {
-            clientRequestService.addClientRequest(requestClientRequest);
+        public HttpStatus addDelivery(@RequestBody RequestDelivery requestDelivery) {
+            deliveryService.addDelivery(requestDelivery);
             ModelMapper mapper = new ModelMapper();
             mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-            ClientRequest clientRequest = clientRequestService.getClientRequest(requestClientRequest.getProductId());
-            ClientRequestDto clientRequestDto = mapper.map(clientRequest, ClientRequestDto.class);
-            kafkaProducer.send("client-request-topic",clientRequestDto);
+            Delivery delivery = deliveryService.getDelivery(requestDelivery.getProductId());
+            DeliveryDto deliveryDto = mapper.map(delivery, DeliveryDto.class);
+            kafkaProducer.sendDelivery("delivery-topic", deliveryDto);
             return HttpStatus.OK;
         }
 
         @GetMapping("/delivery/v1")
-        public ResponseEntity<List<ResponseClientRequest>> allClientRequest() {
-            Iterable<ClientRequest> products = clientRequestService.getClientRequestsAll();
-            List<ResponseClientRequest> result = new ArrayList<>();
-            products.forEach(v -> result.add(new ModelMapper().map(v, ResponseClientRequest.class)));
+        public ResponseEntity<List<ResponseDelivery>> allDelivery() {
+            Iterable<Delivery> products = deliveryService.getDeliverysAll();
+            List<ResponseDelivery> result = new ArrayList<>();
+            products.forEach(v -> result.add(new ModelMapper().map(v, ResponseDelivery.class)));
             return ResponseEntity.status(HttpStatus.OK).body(result);
         }
         @DeleteMapping("/delivery/v1/{deliveryId}")
-        public HttpStatus deleteClientRequest(@PathVariable("deliveryId") int deliveryId) {
-            clientRequestService.deleteClientRequest(deliveryId);
+        public HttpStatus deleteDelivery(@PathVariable("deliveryId") int deliveryId) {
+            deliveryService.deleteDelivery(deliveryId);
             return HttpStatus.OK;
         }
 }

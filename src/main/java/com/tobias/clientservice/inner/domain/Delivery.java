@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class ClientRequest {
+public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,11 +19,11 @@ public class ClientRequest {
     private int clientId;
     private int amount;
 
-    public static ClientRequest createClientRequest(RequestClientRequest requestClientRequest){
-        ClientRequest clientRequest = new ClientRequest();
-        clientRequest.setProductId(requestClientRequest.getProductId());
-        clientRequest.setClientId(requestClientRequest.getClientId());
-        clientRequest.setAmount(requestClientRequest.getAmount());
-        return clientRequest;
+    public static Delivery createDelivery(RequestDelivery requestDelivery){
+        Delivery delivery = new Delivery();
+        delivery.setProductId(requestDelivery.getProductId());
+        delivery.setClientId(requestDelivery.getClientId());
+        delivery.setAmount(requestDelivery.getAmount());
+        return delivery;
     }
 }
