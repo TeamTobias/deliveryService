@@ -31,5 +31,11 @@ spring:
       mode: always
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 greeting:
   message: Hello from the Delivery Service - PROD
