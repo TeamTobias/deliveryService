@@ -34,6 +34,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
+	implementation 'io.micrometer:micrometer-registry-prometheus:1.10.2'
+
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 
