@@ -31,5 +31,11 @@ spring:
       mode: always
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health,beans,busrefresh,info,prometheus,metrics
+
 greeting:
   message: Hello from the Delivery Service - PROD
