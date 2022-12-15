@@ -6,6 +6,7 @@ import com.tobias.clientservice.inner.domain.ResponseDelivery;
 import com.tobias.clientservice.inner.service.DeliveryService;
 import com.tobias.clientservice.outer.adaptor.KafkaProducer;
 import com.tobias.clientservice.outer.dto.DeliveryDto;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -25,8 +26,15 @@ public class DeliveryController {
         private final KafkaProducer kafkaProducer;
 
         @GetMapping("/health_check")
+        @Timed(value ="delivery.status", longTask = true)
         public String status(){
             return "It's Working in Delivery CUD Service";
+        }
+
+        @GetMapping("/welcome")
+        @Timed(value ="delivery.welcome", longTask = true)
+        public String welcome(){
+            return "Welcome to Delivery CUD Service";
         }
 
         @PostMapping("/delivery/v1")
